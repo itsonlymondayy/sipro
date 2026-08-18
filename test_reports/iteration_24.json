@@ -1,0 +1,118 @@
+{
+  "summary": "Phase 23 (EPIC 1.7 Omnichannel) testing completed: Broadcast, CAPI feedback loop, and keyword-intent NBA features fully functional. Backend APIs 96% passing (24/25), frontend UI 100% passing for all Phase 23 features. RBAC correctly enforced (sales role blocked from broadcasts). All regression tests passing.",
+  "backend_issues": {
+    "minor_bugs": [
+      {
+        "endpoint": "/dashboard",
+        "issue": "Returns 404 - endpoint does not exist",
+        "impact": "None - not part of Phase 23 requirements",
+        "fix_priority": "LOW"
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": []
+  },
+  "passed_tests": [
+    "✅ BACKEND: All authentication working (owner, manager, marketing, sales, finance)",
+    "✅ BACKEND: Broadcast preview returns correct recipient counts by segment",
+    "✅ BACKEND: Broadcast create works and simulates send (status=completed, sent/delivered/read stats)",
+    "✅ BACKEND: Broadcast list returns seeded + created broadcasts",
+    "✅ BACKEND: Broadcast get detail returns broadcast + recipients array",
+    "✅ BACKEND: Broadcast RBAC - sales_manager/marketing_admin can manage, sales gets 403, owner bypasses",
+    "✅ BACKEND: CAPI conversions endpoint returns seeded 'Lead' conversion for meta_ads",
+    "✅ BACKEND: Attribution endpoint includes conversions/conversion_value per row + totals.conversions",
+    "✅ BACKEND: Inbox NBA endpoint returns intents ['booking', 'harga'] and suggestions",
+    "✅ BACKEND: Leads, Deals, Customers, Finance AR, Automation Rules, WA Templates, Channels all working",
+    "✅ FRONTEND: Login with quick-login buttons working",
+    "✅ FRONTEND: Omnichannel page loads with all tabs",
+    "✅ FRONTEND: Broadcast tab shows seeded broadcast 'Aktivasi Ulang Cluster Asri (Meta)' with stats",
+    "✅ FRONTEND: 'Buat Broadcast' dialog opens with template selection and segment filters",
+    "✅ FRONTEND: Live preview count updates when segment filters change (showed 2 recipients)",
+    "✅ FRONTEND: Broadcast detail sheet opens and displays recipients table",
+    "✅ FRONTEND: Attribution tab shows 5 metric cards including 'Feedback CAPI'",
+    "✅ FRONTEND: Attribution table includes CAPI column",
+    "✅ FRONTEND: 'Feedback Loop (CAPI)' section displays conversion events table",
+    "✅ FRONTEND: Conversion table shows Meta (Conversions API) / Lead / cluster-a-meta / Simulasi row",
+    "✅ FRONTEND: Inbox page loads and displays conversations",
+    "✅ FRONTEND: Inbox context panel shows lead details with stage, score, source, campaign",
+    "✅ FRONTEND: Intent chips display detected intents (e.g., 'booking')",
+    "✅ FRONTEND: NBA template quick-send button present",
+    "✅ FRONTEND: NBA stage advancement button present ('Majukan ke appointment')",
+    "✅ FRONTEND: Sales role RBAC - 'Automasi & Channel' NOT visible in sidebar",
+    "✅ FRONTEND: Sales role gets 403/access denied on direct /automation access",
+    "✅ REGRESSION: Beranda, Leads, Deals, Inbox, Customers pages all load without errors",
+    "✅ REGRESSION: Omnichannel tabs (Automasi, Template WA, Broadcast, Channel, Atribusi) all functional"
+  ],
+  "test_report_links": [
+    "/app/backend_test_phase23.py",
+    "/root/.emergent/automation_output/20260704_223144/console_20260704_223144.log",
+    "/root/.emergent/automation_output/20260704_223326/console_20260704_223326.log",
+    "/root/.emergent/automation_output/20260704_223434/console_20260704_223434.log"
+  ],
+  "success_percentage": {
+    "backend": "96% (24/25 tests passed)",
+    "frontend": "100% (all Phase 23 features working)",
+    "overall": "98%"
+  },
+  "updated_files": [
+    "/app/backend_test_phase23.py"
+  ],
+  "action_item_for_main_agent": "",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false,
+  "detailed_test_coverage": {
+    "broadcast_backend": {
+      "preview_endpoint": "✅ POST /api/broadcasts/preview returns {total, by_kind, sample}",
+      "create_endpoint": "✅ POST /api/broadcasts creates + simulates send (returns total/sent/delivered/read, status=completed)",
+      "list_endpoint": "✅ GET /api/broadcasts lists all broadcasts",
+      "get_endpoint": "✅ GET /api/broadcasts/{id} returns broadcast + recipients",
+      "rbac": "✅ sales_manager/marketing_admin can manage, sales gets 403, owner bypasses"
+    },
+    "broadcast_frontend": {
+      "seeded_data": "✅ Seeded broadcast 'Aktivasi Ulang Cluster Asri (Meta)' visible with stats",
+      "create_dialog": "✅ 'Buat Broadcast' dialog with template selection and segment filters",
+      "live_preview": "✅ 'Estimasi penerima' updates live when segment changes",
+      "detail_sheet": "✅ Detail sheet shows broadcast info + recipients table"
+    },
+    "capi_backend": {
+      "conversions_endpoint": "✅ GET /api/capture-events/conversions returns seeded Lead conversion for meta_ads",
+      "attribution_endpoint": "✅ GET /api/capture-events/attribution includes conversions/conversion_value per row + totals"
+    },
+    "capi_frontend": {
+      "metric_cards": "✅ 5 metric cards including 'Feedback CAPI'",
+      "attribution_table": "✅ Funnel table has CAPI column",
+      "conversion_table": "✅ 'Feedback Loop (CAPI)' section shows Meta / Lead / Simulasi conversion"
+    },
+    "nba_backend": {
+      "nba_endpoint": "✅ GET /api/inbox/{conv_id}/nba returns {intents, window_open, last_inbound, suggestions}",
+      "intent_detection": "✅ Keywords 'harga'/'unit' trigger intents ['booking', 'harga']",
+      "suggestions": "✅ Returns send_template and advance_stage suggestions"
+    },
+    "nba_frontend": {
+      "context_panel": "✅ Context panel shows lead details and intent chips",
+      "intent_chips": "✅ 'Intent terdeteksi' chips display detected intents",
+      "nba_buttons": "✅ Template quick-send and stage advancement buttons present"
+    },
+    "regression": {
+      "rbac": "✅ Sales role correctly blocked from /automation (403)",
+      "core_pages": "✅ Beranda, Leads, Deals, Inbox, Customers all load",
+      "omnichannel_tabs": "✅ All 5 omnichannel tabs functional"
+    }
+  },
+  "screenshots": [
+    ".screenshots/broadcast_dialog.png",
+    ".screenshots/attribution_panel.png",
+    ".screenshots/inbox_nba.png",
+    ".screenshots/sales_rbac.png"
+  ],
+  "notes": [
+    "All Phase 23 features (Broadcast, CAPI feedback loop, keyword-intent NBA) are fully functional",
+    "Backend APIs working correctly with proper RBAC enforcement",
+    "Frontend UI properly integrated with backend APIs",
+    "Seeded data visible and correct (broadcast, conversion events, conversations)",
+    "SIMULATION mode working as expected (no external API calls)",
+    "Only 1 minor backend issue: /dashboard endpoint 404 (not part of Phase 23 requirements)"
+  ]
+}

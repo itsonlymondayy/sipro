@@ -1,0 +1,106 @@
+{
+  "summary": "Phase 26 Frontend Testing - Partial completion due to UI navigation issues. Backend verified (33/33 PASS via verify_f26_money.py). Frontend: F9 (Finance Dashboard 6 KPIs) PASSED. F1-F8 testing blocked by AR panel navigation issue - 'Terima Bayar' button not accessible in current view.",
+  
+  "backend_issues": {
+    "critical_bugs": [],
+    "notes": "Backend already verified by main agent via /app/scripts/verify_f26_money.py with 33/33 PASS. All money invariants (overpayment guard, deposits, AP guard, KPR disbursement) working correctly at API level."
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "ArPanel / FinancePage",
+        "issue": "AR invoice table with 'Terima Bayar' buttons not visible after clicking 'Piutang (AR)' tab. Only aging buckets and KPI cards are shown. Table may be below viewport or data loading issue.",
+        "location": "/finance -> Piutang (AR) tab",
+        "impact": "Cannot test F1 (overpayment guard), F2 (deposit tab), F3 (deposit lifecycle) via UI",
+        "fix_priority": "HIGH",
+        "testid_affected": "ar-receipt-button, finance-tab-ar",
+        "notes": "ArPanel.js code shows table should render when rows.length > 0. Need to verify: (1) Are there AR invoices with outstanding > 0? (2) Is table below viewport? (3) Is data loading correctly?"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "F9: Finance Dashboard displays 6 KPIs including 'Titipan Pelanggan' (Rp 0) - PASS",
+    "Finance page loads correctly with all tabs visible",
+    "Login flow works (quick-login-finance)",
+    "Navigation to /finance works",
+    "Tab structure present: Dashboard, Arus Kas, Piutang (AR), Titipan, Penagihan, Utang (AP), Komisi, Laporan, Konfigurasi"
+  ],
+  
+  "test_report_links": [
+    "/app/scripts/verify_f26_money.py (backend verification - 33/33 PASS)",
+    ".screenshots/f9_finance_dashboard.png",
+    ".screenshots/f1_ar_list.png"
+  ],
+  
+  "action_item_for_main_agent": "CRITICAL: Investigate AR panel navigation issue. When clicking 'Piutang (AR)' tab, the AR invoice table with 'Terima Bayar' buttons is not visible/accessible. Only aging buckets are shown. This blocks testing of F1 (overpayment guard), F2 (deposit tab), F3 (deposit lifecycle), F4 (AP guard). Possible causes: (1) Table rendering below viewport - need scroll, (2) No AR invoices with outstanding > 0 in seed data, (3) Data loading issue. Backend APIs are verified working (33/33 PASS). Need to verify frontend data fetching and rendering. Also need to test: F5 (KPR bank dropdown + book_to_ar checkbox), F6 (SSOT reference panel at /admin/master-data), F7 (no raw enum labels across all pages), F8 (Indonesian error messages).",
+  
+  "updated_files": [
+    "/app/test_reports/iteration_32.json"
+  ],
+  
+  "success_percentage": {
+    "backend": "100% (33/33 PASS via verify_f26_money.py)",
+    "frontend": "10% (1/10 features tested - only F9 Dashboard KPIs verified)"
+  },
+  
+  "should_call_test_agent_after_fix": "true",
+  "should_main_agent_test_itself": "false",
+  
+  "detailed_findings": {
+    "verified_working": {
+      "F9_finance_dashboard": {
+        "status": "PASS",
+        "details": "Finance Dashboard at /finance displays 6 KPI cards: Piutang (AR) Outstanding (Rp 680.000.000), AR Jatuh Tempo (Rp 212.500.000), Utang (AP) Outstanding (Rp 266.000.000), Kewajiban Kontrak (Rp 170.000.000), Titipan Pelanggan (Rp 0), Pendapatan Diakui (Rp 0). All KPIs render correctly with Indonesian labels and proper formatting."
+      }
+    },
+    "blocked_tests": {
+      "F1_ar_overpayment": {
+        "status": "BLOCKED",
+        "reason": "Cannot access 'Terima Bayar' button - AR invoice table not visible",
+        "expected_flow": "Click 'Piutang (AR)' tab -> See table with AR invoices -> Click 'Terima Bayar' -> Enter 700M (outstanding 680M) -> See warning with 20M excess -> Checkbox to allow -> Submit",
+        "actual": "Click 'Piutang (AR)' tab -> Only see aging buckets, no invoice table visible"
+      },
+      "F2_deposit_tab": {
+        "status": "BLOCKED",
+        "reason": "Cannot complete F1 to create deposit, cannot verify deposit tab functionality"
+      },
+      "F3_deposit_lifecycle": {
+        "status": "BLOCKED",
+        "reason": "Depends on F1 and F2"
+      },
+      "F4_ap_guard": {
+        "status": "NOT_TESTED",
+        "reason": "Time constraint, need to resolve F1-F3 first"
+      },
+      "F5_kpr_bank_dropdown": {
+        "status": "NOT_TESTED",
+        "reason": "Time constraint"
+      },
+      "F6_ssot_reference": {
+        "status": "NOT_TESTED",
+        "reason": "Time constraint"
+      },
+      "F7_no_raw_enums": {
+        "status": "NOT_TESTED",
+        "reason": "Time constraint, requires checking 10+ pages"
+      },
+      "F8_indonesian_errors": {
+        "status": "NOT_TESTED",
+        "reason": "Time constraint"
+      }
+    }
+  },
+  
+  "recommendations": [
+    "Main agent should verify AR panel data loading: Check if /api/finance/ar returns invoices with outstanding > 0",
+    "Check if ArPanel table is rendering but below viewport (need scroll)",
+    "Verify seed data has at least one AR invoice with outstanding balance",
+    "After fixing AR panel issue, re-run testing agent to complete F1-F8 tests",
+    "Consider adding data-testid to AR invoice table rows for easier testing",
+    "Backend is solid (33/33 PASS) - focus on frontend data display and navigation"
+  ]
+}

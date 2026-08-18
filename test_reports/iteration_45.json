@@ -1,0 +1,42 @@
+{
+  "summary": "FASE 33 PUTARAN-2: Completed frontend UI testing for evidence-based subcontractor payment flow. All CORE interactions tested successfully: add/remove scope items dialog, submit claim based on verified work, opname sheet with mandatory reasons and SoD enforcement, finance approval, and 'already billed' status tracking. Regression tests for Fase 31/32 passed.",
+  
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "US-1b: Add scope items dialog - opens, displays 70 candidates, unit filter works, checkbox selection works, value input works, total calculation correct, validation prevents over-allocation (contract fully allocated)",
+    "US-8: No manual percentage input - verified progress note states 'dihitung sistem dan tidak bisa diketik' for item-based SPK",
+    "US-3: Submit claim dialog - evidence-based preview shows 5 rows with Rp 30.000.000 gross, Rp 1.500.000 retention (5%), Rp 28.500.000 net, NO percentage input for item-based SPK, claim submitted successfully with 'Per item berbukti' badge",
+    "US-5: Opname sheet - 5 lines with toggle switches, turning off toggle shows reason dropdown and note field, save button disabled until reason filled, total recalculates correctly (Rp 24.000.000 after excluding Rp 6.000.000), SoD warning shown when submitter tries to opname own claim with save button disabled",
+    "US-6: Finance approval - PM does NOT see approve button (correct SoD), Finance sees approve buttons and successfully approved claim, metrics updated: Disetujui Rp 24.000.000, Retensi Rp 1.200.000",
+    "US-7: Already billed status - after approval, scope metrics show 'Sudah ditagih: Rp 24.000.000 (4 pekerjaan)', 4 rows display 'Sudah ditagih' status with term number TRM/2026/0002, 'Siap ditagih' reduced to Rp 6.000.000 (1 pekerjaan - the excluded item)",
+    "Regression Fase 32: Papan Mandor tab displays work cards/groups correctly",
+    "Regression Fase 32: Laporan & Analitik tab displays weekly reports with chart and analytics",
+    "Regression Fase 31: Antrean Kerja tab displays work queue",
+    "Regression Fase 31: QC & Inspeksi tab displays inspection content",
+    "Console errors: 0 errors across all pages (/login, /, /subcon, /boq, /construction), 6 warnings (non-critical)"
+  ],
+  
+  "test_report_links": [],
+  
+  "success_percentage": {
+    "frontend": "100%",
+    "backend": "Not tested (PUTARAN-2 is frontend-only, backend already proven in PUTARAN-1 with poc_33.py 66 PASS/0 FAIL)"
+  },
+  
+  "updated_files": [],
+  
+  "action_item_for_main_agent": "All PUTARAN-2 frontend UI tests PASSED. The evidence-based payment flow works correctly end-to-end: (1) Scope items can be added from verified work (dialog functional, validation working), (2) Claims are calculated from verified work only without manual percentage input, (3) Opname enforces SoD and requires mandatory reasons for exclusions, (4) Finance approval creates AP bills with correct amounts and retention, (5) Billed items are tracked and cannot be claimed again. The one item excluded during opname (Rp 6.000.000) correctly shows as 'siap ditagih' again. Regression tests confirm Fase 31/32 features remain stable. Zero console errors. FASE 33 is READY FOR PRODUCTION.",
+  
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false
+}

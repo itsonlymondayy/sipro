@@ -1,0 +1,36 @@
+{
+  "summary": "SIPRO Fase 26 - Completed focused testing of customer deposit (titipan pelanggan) flow with 5 sequential steps on /finance page. All critical features tested successfully including the never-before-tested 'Use deposit for installment' functionality.",
+  
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "STEP 1: Receive advance deposit - Successfully received Rp 50M deposit for unit A-01, deposit row appeared with correct balance, KPI displayed correctly",
+    "STEP 2: Use deposit for installment (CRITICAL) - 'Gunakan' button found and functional, amount auto-filled and changed to Rp 30M, deposit balance reduced to Rp 20M, AR outstanding reduced from Rp 680M to Rp 650M, AR shows remaining deposit Rp 20M",
+    "STEP 3: Refund deposit - Successfully refunded Rp 20M, balance shows Rp 0, 'Dikembalikan' column shows Rp 20M, refund button correctly disappears when balance is 0",
+    "STEP 4: Overpayment scenario - Warning appeared for Rp 10M excess, submit button disabled until checkbox checked, button text changes correctly ('Centang persetujuan dulu' → 'Simpan Pembayaran'), payment processed successfully, deposit balance shows Rp 10M from overpayment",
+    "STEP 5: Transaction history - History dialog opened with 4 transaction entries, all 7 Indonesian terms found (titipan, masuk, kelebihan, dipakai, termin, dikembalikan, pelanggan), all 4 transaction amounts verified (Rp 50M, 30M, 20M, 10M), labels properly in Indonesian (not raw enum values)"
+  ],
+  
+  "test_report_links": [],
+  
+  "success_percentage": {
+    "frontend": "100% (5/5 steps passed)",
+    "backend": "Not tested (frontend-only scope as requested)"
+  },
+  
+  "updated_files": [],
+  
+  "action_item_for_main_agent": "",
+  
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false
+}

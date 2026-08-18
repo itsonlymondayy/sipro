@@ -1,0 +1,79 @@
+{
+  "summary": "FASE 34 frontend testing completed - Jadwal Massal & Geser Tanggal Serentak. Core functionality verified: bulk schedule dialog with 14 candidates (11 schedulable), staggered wave pattern working, shift preview shows 9 locked verified tasks (A-01 has 6 locked tasks - CORE FEATURE WORKING). Clean state numbers match: 4/18 scheduled, 11 unscheduled. CRITICAL BUG: Site Engineer can see bulk/shift buttons (RBAC violation).",
+  
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "critical_bugs": [
+      {
+        "component": "BuildMonitorPanel",
+        "issue": "Site Engineer (site@sipro.co.id) can see bulk schedule and shift buttons when they should NOT be visible",
+        "selector": "[data-testid='build-bulk-button'], [data-testid='build-shift-button']",
+        "fix_priority": "CRITICAL",
+        "expected": "Only PM/Owner should see these buttons (can.configure check)",
+        "actual": "Site Engineer sees both buttons",
+        "impact": "RBAC violation - pelaksana should not be able to run bulk operations per INV-34-5"
+      }
+    ],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "US-34-1: Bulk schedule dialog opens with correct elements (block filter, type filter, start date, wave pattern, select all)",
+    "US-34-1: Banner shows '11 rumah belum punya jadwal' (matches clean state)",
+    "US-34-1: KPI shows 'Rumah terjadwal 4/18' (matches clean state)",
+    "US-34-1: Found 14 candidate rows (matches clean state)",
+    "US-34-1: Kavling type units shown as non-schedulable with proper reason",
+    "US-34-2: Staggered wave pattern - stagger input appears when 'Bertahap per blok' selected",
+    "US-34-2: Stagger days can be set to 3",
+    "US-34-3: Preview button works and shows preview panel",
+    "US-34-3: Preview summary shows '11 rumah siap dijadwalkan · 208 pekerjaan'",
+    "US-34-3: Preview shows 11 rows with dates",
+    "US-34-3: Staggered pattern working - different start dates per block (15 Agu vs 18 Agu)",
+    "US-34-7: Shift dialog opens with all required elements",
+    "US-34-7: Default shift days is 14",
+    "US-34-7: Hint shows missing fields (cause & note)",
+    "US-34-7: Run button disabled without cause & note",
+    "US-34-7: Cause selector works (Cuaca hujan)",
+    "US-34-7: Note textarea accepts input",
+    "US-34-8: Shift preview button works",
+    "US-34-8: Shift preview panel appears",
+    "US-34-8: Shift summary shows '4 jadwal siap digeser +14 hari · 71 pekerjaan bergeser · 9 terverifikasi dipertahankan'",
+    "US-34-8: CORE FEATURE - A-01 has 6 locked (verified) tasks that are preserved during shift",
+    "US-34-8: Preview shows 4 rows with old → new dates",
+    "US-34-11: Bulk runs panel exists and toggle works",
+    "US-34-11: Bulk runs panel shows 0 history rows (expected - no operations executed)",
+    "US-34-12b: Owner can see bulk and shift buttons",
+    "US-34-12b: Owner can open bulk schedule dialog"
+  ],
+  
+  "test_report_links": [
+    ".screenshots/fase34_01_monitoring_unit.png",
+    ".screenshots/fase34_02_bulk_dialog.png",
+    ".screenshots/fase34_03_stagger_pattern.png",
+    ".screenshots/fase34_04_preview.png",
+    ".screenshots/fase34_05_shift_dialog.png",
+    ".screenshots/fase34_06_shift_preview.png",
+    ".screenshots/fase34_07_bulk_runs.png",
+    ".screenshots/fase34_08_site_rbac.png",
+    ".screenshots/fase34_09_owner_rbac.png",
+    ".screenshots/fase34_10_sales_rbac.png"
+  ],
+  
+  "action_item_for_main_agent": "CRITICAL: Fix RBAC for Site Engineer - bulk and shift buttons should NOT be visible for site_engineer role (only PM/Owner per INV-34-5). Check BuildMonitorPanel.js line 150-163, the 'can.configure' check is not working correctly for site_engineer. Also test US-34-4 (execute bulk schedule), US-34-5 (don't overwrite), US-34-6 (double-click protection), US-34-9 (conflict detection with -170 days), US-34-10 (execute shift & verify A-01's 6 verified tasks don't change dates), and US-34-12c (Sales RBAC).",
+  
+  "updated_files": [],
+  
+  "success_percentage": {
+    "backend": "100% (already verified by poc_34.py 57/57 PASS)",
+    "frontend": "75% (26/35 user story checks passed, 1 critical RBAC bug, 8 checks not fully tested due to avoiding state changes)"
+  },
+  
+  "should_call_test_agent_after_fix": "true",
+  "should_main_agent_test_itself": "false"
+}

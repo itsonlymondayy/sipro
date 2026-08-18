@@ -1,0 +1,67 @@
+{
+  "summary": "Phase 18 Material Requisition + Budget Alert testing completed. Backend 100% functional (21/21 tests passed). Frontend all major features working correctly with minor UI polish issue.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "RequisitionsPanel - Requisition Detail Dialog",
+        "issue": "Dialog overlay blocks clicks on 'Setujui' button inside detail modal when trying to approve from detail view",
+        "selector": "[data-testid='requisition-approve-button'] inside [data-testid='requisition-detail']",
+        "fix_priority": "LOW",
+        "workaround": "Approve button works correctly from the main list view (outside dialog). Backend API works perfectly. This is a UI polish issue with dialog overlay z-index."
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "Backend: All user logins (PM, Site, Finance, Sales, Owner)",
+    "Backend: GET /api/materials/requisitions with summary (total, submitted, approved, issued)",
+    "Backend: Seeded requisitions PR/2026/0001 (approved) and PR/2026/0002 (issued) present",
+    "Backend: POST /api/materials/requisitions as site engineer creates requisition with status 'submitted'",
+    "Backend: RBAC - Sales cannot create requisitions (403)",
+    "Backend: RBAC - Finance cannot create requisitions (403)",
+    "Backend: SoD - Site engineer cannot approve requisitions (403)",
+    "Backend: SoD - PM can approve requisitions (status changes to 'approved')",
+    "Backend: Issue unapproved requisition fails with 400",
+    "Backend: Issue approved requisition succeeds (status changes to 'issued')",
+    "Backend: GET /api/materials/project/{id}/budget shows BTA over budget (5000 > 4000)",
+    "Backend: Budget summary shows 1 material over budget",
+    "Backend: Finance can view budget (200)",
+    "Backend: Regression - Material transaction (in/out) works",
+    "Backend: Regression - Stock opname works",
+    "Frontend: Materials page loads with correct title 'Material & Opname'",
+    "Frontend: Project selector works and selects project",
+    "Frontend: Three tabs visible and functional (Stok & Buku Besar, Permintaan Material, Anggaran RAB)",
+    "Frontend: Stock tab shows materials with stock levels and ledger transactions",
+    "Frontend: Requisitions tab shows summary chips (Total, Diajukan, Disetujui, Dikeluarkan)",
+    "Frontend: Requisitions tab shows 7 requisition rows with status badges",
+    "Frontend: 'Permintaan Baru' button visible and functional",
+    "Frontend: Create requisition dialog works (purpose, material selection, quantity)",
+    "Frontend: New requisition created successfully with toast confirmation",
+    "Frontend: Requisition detail dialog opens and shows item details",
+    "Frontend: Budget tab shows summary (Material: 4, Terpantau RAB: 4, Melebihi RAB: 1)",
+    "Frontend: BTA Bata Merah shows red 'Melebihi RAB' badge",
+    "Frontend: BTA shows correct over-budget values (5000/4000 pcs) with red progress bar",
+    "Frontend: RBAC - Sales user cannot access Materials menu (correctly hidden)",
+    "Frontend: RBAC - Sales user sees their own dashboard with sales-specific content"
+  ],
+  "test_report_links": [
+    "/app/backend/backend_test_phase18.py",
+    "/root/.emergent/automation_output/20260703_180825/console_20260703_180825.log",
+    "/root/.emergent/automation_output/20260703_181014/console_20260703_181014.log"
+  ],
+  "success_percentage": {
+    "backend": "100% (21/21 tests passed)",
+    "frontend": "95% (29/30 features working, 1 minor UI polish issue)"
+  },
+  "updated_files": [
+    "/app/backend/backend_test_phase18.py"
+  ],
+  "action_item_for_main_agent": "Optional UI polish: Fix dialog overlay z-index issue in RequisitionsPanel detail modal so 'Setujui' button inside dialog is clickable. Currently works from main list view. This is LOW priority as functionality is not blocked.",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": true
+}

@@ -1,0 +1,49 @@
+{
+  "summary": "EPIC M3 WebSocket notifications backend testing completed. 28/30 tests passed (93.3%). WebSocket core functionality (valid token, heartbeat, instant push, mark_read, mark_all_read) works correctly. SSE fallback operational. Regression tests (login, work/home, notifications, RBAC) all pass. One minor bug found: invalid token handling returns HTTP 403 instead of WebSocket close code 4401.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "minor_bugs": [
+      {
+        "endpoint": "/api/ws/notifications",
+        "issue": "Invalid/empty token returns HTTP 403 rejection instead of WebSocket close code 4401",
+        "impact": "WebSocket connection is rejected at HTTP level instead of upgrading then closing with 4401. Functionally works (blocks invalid auth) but doesn't match specification.",
+        "fix_priority": "LOW",
+        "root_cause": "Code calls websocket.close(4401) before websocket.accept(). Must accept connection first, then close with 4401.",
+        "fix_location": "/app/backend/routers/realtime_router.py line 92",
+        "suggested_fix": "Add 'await websocket.accept()' before 'await websocket.close(code=4401)'"
+      }
+    ],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "WebSocket valid token: hello event with unread count and transport=websocket (3 checks)",
+    "WebSocket heartbeat: ping→pong",
+    "WebSocket instant push: notification received with data object and unread count (3 checks)",
+    "WebSocket mark_all_read: returns unread event with count=0 (2 checks)",
+    "WebSocket mark_read: returns unread event with decreased count (2 checks)",
+    "SSE fallback: /api/notifications/stream returns text/event-stream with hello event (4 checks)",
+    "Regression login: all 4 users (owner, sales, finance, sales2) login successfully",
+    "Regression /api/work/home: returns 200 with title, kpis, tasks (4 checks)",
+    "Regression /api/notifications: returns 200 with data and unread (3 checks)",
+    "Regression RBAC: sales→403, owner→200 for /api/admin/users (2 checks)"
+  ],
+  "test_report_links": [
+    "/app/backend/backend_test_m3.py",
+    "/app/backend/test_ws_m3.py"
+  ],
+  "action_item_for_main_agent": "Fix WebSocket invalid token handling in /app/backend/routers/realtime_router.py: Add 'await websocket.accept()' before 'await websocket.close(code=4401)' at line 92. This is a minor spec compliance issue - current behavior (HTTP 403 rejection) is functionally correct but doesn't match the requirement for WebSocket close code 4401.",
+  "updated_files": [
+    "/app/backend/backend_test_m3.py"
+  ],
+  "success_percentage": {
+    "backend": "93.3% (28/30 tests passed)",
+    "frontend": "N/A (frontend testing not requested)"
+  },
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "true"
+}

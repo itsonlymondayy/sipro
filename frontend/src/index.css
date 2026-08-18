@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 36 33% 98%;
+        --foreground: 222 47% 11%;
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 47% 11%;
+        --primary: 196 84% 34%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 210 20% 96%;
+        --secondary-foreground: 222 47% 11%;
+        --muted: 210 20% 96%;
+        --muted-foreground: 215 16% 40%;
+        --accent: 174 55% 92%;
+        --accent-foreground: 196 84% 20%;
+        --destructive: 0 72% 52%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 214 20% 90%;
+        --input: 214 20% 90%;
+        --ring: 196 84% 34%;
+        --radius: 0.75rem;
+        --chart-1: 196 84% 34%;
+        --chart-2: 28 90% 55%;
+        --chart-3: 152 55% 38%;
+        --chart-4: 222 47% 35%;
+        --chart-5: 0 72% 52%;
+    }
+    .dark {
+        --background: 222 47% 7%;
+        --foreground: 210 40% 98%;
+        --card: 222 47% 9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222 47% 9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 196 84% 45%;
+        --primary-foreground: 222 47% 7%;
+        --secondary: 217 19% 16%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217 19% 16%;
+        --muted-foreground: 215 20% 70%;
+        --accent: 196 40% 18%;
+        --accent-foreground: 196 84% 70%;
+        --destructive: 0 62% 40%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217 19% 16%;
+        --input: 217 19% 16%;
+        --ring: 196 84% 45%;
+        --chart-1: 196 84% 45%;
+        --chart-2: 28 90% 60%;
+        --chart-3: 152 55% 45%;
+        --chart-4: 222 47% 60%;
+        --chart-5: 0 72% 55%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, .font-heading {
+        font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    }
+    .font-mono, code {
+        font-family: "Roboto Mono", ui-monospace, Menlo, monospace;
+    }
+}
+
+/* Subtle noise texture for the app shell background (design_guidelines) */
+.app-noise {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.035'/></svg>");
+}
+
+/* Dua baris lalu elipsis — dipakai label/keterangan kartu angka supaya keterangan panjang
+   tetap terbaca (dulu dipotong satu baris dengan `truncate` sehingga informasinya hilang). */
+@layer components {
+    .clamp-2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    /* Angka uang di dalam tabel: rata kanan, tidak boleh terpotong di tengah digit. */
+    .num-cell {
+        @apply whitespace-nowrap text-right tabular-nums;
+    }
+}
+
+/* Semantic status pills — consistent across domains */
+@layer components {
+    .status-pill {
+        @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium;
+    }
+    .status-available { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-holding { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-reserved { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-booked { @apply bg-indigo-50 text-indigo-800 border-indigo-200; }
+    .status-sold { @apply bg-slate-100 text-slate-800 border-slate-200; }
+    .status-overdue { @apply bg-rose-50 text-rose-800 border-rose-200; }
+    .status-due-today { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-on-track { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-simulation { @apply bg-zinc-50 text-zinc-700 border-zinc-200; }
+    .status-urgent { @apply bg-rose-50 text-rose-800 border-rose-200; }
+    .status-high { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-medium { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-low { @apply bg-slate-100 text-slate-700 border-slate-200; }
+    .status-open { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-in_progress { @apply bg-indigo-50 text-indigo-800 border-indigo-200; }
+    .status-completed { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-snoozed { @apply bg-zinc-50 text-zinc-700 border-zinc-200; }
+    /* Lead stages */
+    .status-acquisition { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-nurturing { @apply bg-violet-50 text-violet-800 border-violet-200; }
+    .status-appointment { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-booking { @apply bg-indigo-50 text-indigo-800 border-indigo-200; }
+    .status-won { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-recycle { @apply bg-zinc-50 text-zinc-700 border-zinc-200; }
+    .status-lost { @apply bg-rose-50 text-rose-800 border-rose-200; }
+    /* Score bands */
+    .status-hot { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-warm { @apply bg-amber-50 text-amber-800 border-amber-200; }
+    .status-cold { @apply bg-sky-50 text-sky-700 border-sky-200; }
+    /* Deal + document + conversation states */
+    .status-draft { @apply bg-slate-100 text-slate-700 border-slate-200; }
+    .status-finalized { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-signed { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-expired { @apply bg-zinc-100 text-zinc-600 border-zinc-200; }
+    .status-cancelled { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-active { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-closed { @apply bg-slate-100 text-slate-700 border-slate-200; }
+    .status-new { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    /* Finance: AR / AP / commission states */
+    .status-unpaid { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-partial { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-paid { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-pending { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-pending_approval { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-approved { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-paid_off { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-booking_fee { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-resolved { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-not_started { @apply bg-slate-100 text-slate-700 border-slate-200; }
+    .status-submitted { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-rejected { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-verified { @apply bg-violet-50 text-violet-800 border-violet-200; }
+    /* Phase 12 — procurement 3-way match + PO/SPK states */
+    .status-matched { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-flagged { @apply bg-rose-50 text-rose-800 border-rose-200; }
+    .status-received { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-partially_received { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-completed { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    /* Phase 14 — appointment + survey states */
+    .status-scheduled { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-done { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-no_show { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-recommended { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-needs_followup { @apply bg-amber-50 text-amber-900 border-amber-200; }
+    .status-not_recommended { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-reported { @apply bg-sky-50 text-sky-800 border-sky-200; }
+    .status-issued { @apply bg-indigo-50 text-indigo-800 border-indigo-200; }
+    .status-passed { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .status-failed { @apply bg-rose-50 text-rose-700 border-rose-200; }
+    .status-na { @apply bg-slate-50 text-slate-600 border-slate-200; }
+    /* Fase 27 — kas bon, aset tetap, pembiayaan korporat, marketing fee */
+    .status-disbursed { @apply bg-indigo-50 text-indigo-800 border-indigo-200; }
+    .status-settled { @apply bg-emerald-50 text-emerald-800 border-emerald-200; }
+    .status-fully_depreciated { @apply bg-zinc-100 text-zinc-700 border-zinc-200; }
+    .status-disposed { @apply bg-slate-100 text-slate-700 border-slate-200; }
+    .status-restructured { @apply bg-violet-50 text-violet-800 border-violet-200; }
+    .status-inactive { @apply bg-zinc-100 text-zinc-600 border-zinc-200; }
+    .status-blacklist { @apply bg-rose-50 text-rose-800 border-rose-200; }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+}

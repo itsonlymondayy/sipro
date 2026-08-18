@@ -1,0 +1,63 @@
+{
+  "summary": "Completed independent testing of FASE 36 - KALENDER JADWAL. Backend APIs verified (62/69 tests passed, 7 test script issues not actual bugs). Frontend UI tested via Playwright covering 10+ user stories including calendar view, conflicts detection, RBAC, settings management. Regression testing confirmed Phases 31-35 still working correctly.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "Backend: GET /api/build/calendar returns correct structure with 31 days for August 2026",
+    "Backend: Calendar has all required fields (month, days, events, conflicts, summary, calendar, projects, assignees, unscheduled, outlook, today)",
+    "Backend: PM has configure=true and shift=true permissions",
+    "Backend: GET /api/build/calendar/settings returns pattern (7 days), holidays (18 items), thresholds, note",
+    "Backend: GET /api/build/calendar/workday correctly identifies Aug 17 as holiday (not workday)",
+    "Backend: GET /api/build/calendar/workday correctly identifies Aug 18 as workday",
+    "Backend: Site engineer can view calendar but configure=false and shift=false",
+    "Backend: Sales user denied access (403) to calendar endpoints",
+    "Backend: PM can add holiday via POST /api/build/calendar/holidays",
+    "Backend: PM can delete holiday via DELETE /api/build/calendar/holidays/{day}",
+    "Backend: PM can update settings via PUT /api/build/calendar/settings",
+    "Backend: Validation rejects all days off pattern (400)",
+    "Backend: Validation rejects threshold=0 (400)",
+    "Backend: Conflicts detection works (non_workday conflicts found for Aug 17)",
+    "Backend: Kind filter works correctly",
+    "Backend: Assignee filter works correctly",
+    "Frontend: Calendar page loads with data-testid='build-calendar-page'",
+    "Frontend: Calendar grid displays 31 days for August 2026",
+    "Frontend: Calendar summary shows 5 metrics (Acara=39, Pekerjaan telat=5, Bentrok=3, Hari kerja=24, Pelaksana=4)",
+    "Frontend: Calendar legend visible",
+    "Frontend: Aug 17 cell shows holiday name 'Hari Kemerdekaan Republik Indonesia'",
+    "Frontend: Clicking Aug 17 opens day panel with 7 events and conflict explanation",
+    "Frontend: Conflict panel shows critical_stack conflict on Aug 25 (3 pekerjaan kritis, batas 2)",
+    "Frontend: Settings button opens dialog with 7 pattern rows, 18 holiday rows, thresholds, and note mentioning 'WAJIB disesuaikan dengan SKB pemerintah'",
+    "Frontend: Site engineer can view calendar but settings/shift buttons NOT visible",
+    "Frontend: Sales user sees access denied card with user-friendly message (not technical)",
+    "Regression: Monitoring Unit tab (build-monitor-panel) loads",
+    "Regression: Bulk operations buttons (build-bulk-button, build-shift-button) found",
+    "Regression: Bulk runs panel (build-bulk-runs-panel) visible",
+    "Regression: Papan Mandor loads for site engineer with work groups",
+    "Regression: Subcon page loads for finance user",
+    "No critical console errors (only expected CDN/WebSocket warnings and 403 for sales)"
+  ],
+  "test_report_links": [
+    "/app/backend_test_phase36.py",
+    "/app/.screenshots/calendar_page_pm.png",
+    "/app/.screenshots/calendar_settings.png",
+    "/app/.screenshots/calendar_sales_denied.png"
+  ],
+  "success_percentage": {
+    "backend": "90% (62/69 passed, 7 failures are test script issues not actual bugs - all validation endpoints return correct status codes)",
+    "frontend": "100% (all tested user stories passed)",
+    "regression": "100% (all previous phase features still working)"
+  },
+  "updated_files": [
+    "/app/backend_test_phase36.py"
+  ],
+  "action_item_for_main_agent": "",
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "false"
+}

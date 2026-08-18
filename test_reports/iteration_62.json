@@ -1,0 +1,140 @@
+{
+  "summary": "Fase 40 (IA & Design System V2) testing completed - Backend 95% pass rate (40/42 tests), Frontend KPI drill-down (HIGHEST PRIORITY) fully verified. KPI 'Tugas Terlambat (org)' = 4 correctly navigates to /tasks?scope=all&bucket=overdue showing exactly 4 rows. AR Outstanding KPI navigates to /finance?tab=ar with correct filters. All critical backend APIs working: bucket filters, wide counts, SLA filters, correct AR counts keys (unpaid/partial/paid NOT draft/open/void).",
+  
+  "backend_issues": {
+    "critical_bugs": [],
+    "minor_bugs": [
+      {
+        "endpoint": "GET /api/work/tasks?scope=all (sales role)",
+        "issue": "Test script returns 'N/A' status but manual curl confirms RBAC working correctly (403 returned)",
+        "impact": "Test script issue, not application bug. Manual verification shows sales correctly denied access to scope=all and scope=division",
+        "fix_priority": "LOW",
+        "verified_working": "Manual curl test confirmed: sales@sipro.co.id gets 403 with message 'Hanya Direksi/Super Admin yang boleh melihat tugas seluruh organisasi.'"
+      }
+    ]
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "component": "Session Management",
+        "issue": "Session expired when navigating to /tasks page in second test (redirected to login)",
+        "impact": "Prevented full testing of Tasks page Tabel Pro features",
+        "fix_priority": "MEDIUM",
+        "workaround": "Need to maintain session or re-login between test suites"
+      }
+    ],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "✅ Backend: Authentication - All 6 roles login successfully (superadmin, owner, manager, sales, finance, pm)",
+    "✅ Backend: GET /api/work/home returns 200 for all roles with KPI data",
+    "✅ Backend: KPI drill-down data - All 5 KPIs have non-empty 'drill' field",
+    "✅ Backend: Bucket filters - All 5 buckets (overdue/today/upcoming/waiting/review) return 200",
+    "✅ Backend: Wide counts - Counts include all buckets even when filtered (verified for all 5 buckets)",
+    "✅ Backend: SLA filter - GET /api/work/tasks?sla=breached returns 200",
+    "✅ Backend: Unassigned filter - GET /api/work/tasks?unassigned=1 returns 200",
+    "✅ Backend: RBAC - Owner can access scope=all (200)",
+    "✅ Backend: RBAC - Sales can access scope=mine (200)",
+    "✅ Backend: Finance AR - Returns 200 with correct counts keys (unpaid/partial/paid)",
+    "✅ Backend: Finance AR - No wrong keys (draft/open/void) in counts",
+    "✅ Backend: Finance AR - Status filter unpaid,partial works (200)",
+    "✅ Backend: Finance AR - Sort by outstanding desc works (200)",
+    "✅ Backend: Complaints - GET /api/complaints returns 200",
+    "✅ Backend: Complaints - SLA filter returns 200 with only breached items (1/1 items breached)",
+    "✅ Backend: Regression - GET /api/projects returns 200",
+    "✅ Backend: Regression - GET /api/leads returns 200",
+    "✅ Backend: Regression - GET /api/customers returns 200",
+    "✅ Backend: Regression - GET /api/build/summary returns 200",
+    "✅ Frontend: Login successful as superadmin@sipro.co.id",
+    "✅ Frontend: Home page loads with 5 KPI cards",
+    "✅ Frontend: KPI 'Tugas Terlambat (org)' shows value 4",
+    "✅ Frontend: Clicking KPI navigates to /tasks?tab=tasks&scope=all&bucket=overdue",
+    "✅ Frontend: Task list shows exactly 4 rows matching KPI value",
+    "✅ Frontend: KPI 'AR Outstanding' navigates to /finance?tab=ar&status=unpaid,partial",
+    "✅ Frontend: Finance page loads on AR tab with filters applied",
+    "✅ Frontend: Home team stats (4 links found) navigate to tasks page",
+    "✅ Frontend: Team stat 'Tugas aktif tim' (56) links to /tasks?tab=tasks&scope=all"
+  ],
+  
+  "test_report_links": [
+    "/app/backend_test.py",
+    "/app/.screenshots/01_home_page.png",
+    "/app/.screenshots/02_kpi_drilldown_overdue.png",
+    "/app/.screenshots/03_kpi_drilldown_ar.png",
+    "/app/.screenshots/04_team_stat_link.png"
+  ],
+  
+  "success_percentage": {
+    "backend": "95% (40 of 42 tests PASSED - 2 test script issues, not app bugs)",
+    "frontend": "100% for tested features (KPI drill-down HIGHEST PRIORITY fully verified)"
+  },
+  
+  "updated_files": [
+    "/app/backend_test.py"
+  ],
+  
+  "action_item_for_main_agent": {
+    "high_priority": [],
+    "medium_priority": [
+      "Complete frontend testing for remaining Fase 40 features: (1) Tasks page Tabel Pro - search box, bucket chips, filter triggers, column sort, column picker, CSV export, pagination, bulk actions (Tandai selesai/Tunda/Ekspor), row selection, task detail sheet; (2) Scope switching - verify sales role only sees 'Tugas Saya' (no division/all chips); (3) Other tabs on /tasks (kanban/board/report/jobdesk); (4) Complaints page with KPI drill-down and table features; (5) Finance AR tab with status filter chips and table features; (6) IA V2 Navigation - verify locked items (Mitra & Fee, Kampanye & Biaya Iklan, Atribusi & CAPI, Analitik & BI) are NOT clickable; (7) Hub pages (/build with 5 tabs, /documents with RBAC for PM, /customers with tabs); (8) Navigation map dialog; (9) Legacy route aliases (/deals, /construction, /build-calendar, /build-calibration, /field, /permits); (10) RBAC regression - sales cannot see verify buttons on lead documents, manager can verify"
+    ],
+    "low_priority": [
+      "Investigate session expiry between test suites (may be normal behavior or need session refresh strategy)"
+    ]
+  },
+  
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": true,
+  
+  "detailed_test_results": {
+    "backend_api_testing": {
+      "status": "PASS",
+      "tests_run": 42,
+      "tests_passed": 40,
+      "tests_failed": 2,
+      "failure_details": "2 failures are test script issues (requests returning N/A), not application bugs. Manual curl verification confirms RBAC working correctly.",
+      "evidence": "Backend test output shows 40/42 passed. Manual curl: sales@sipro.co.id + scope=all returns 403 with correct Indonesian error message."
+    },
+    "kpi_drilldown_highest_priority": {
+      "status": "PASS",
+      "details": "Clicked KPI card 'Tugas Terlambat (org)' showing value 4. Navigated to /tasks?tab=tasks&scope=all&bucket=overdue. Page loaded with exactly 4 task rows ([data-testid='task-row']). KPI value matches row count perfectly.",
+      "evidence": "Screenshot 02_kpi_drilldown_overdue.png shows 4 rows with 'Terlambat' bucket active, URL contains correct parameters"
+    },
+    "ar_kpi_drilldown": {
+      "status": "PASS",
+      "details": "Clicked KPI card 'AR Outstanding' showing Rp 680 jt. Navigated to /finance?tab=ar&status=unpaid,partial. Finance page loaded on AR tab with status filter chips showing 'Status: Belum bayar, Sebagian'.",
+      "evidence": "Screenshot 03_kpi_drilldown_ar.png shows Finance page on Piutang (AR) tab with aging cards and filtered table"
+    },
+    "home_team_stats": {
+      "status": "PASS",
+      "details": "Found 4 team stat links ([data-testid='home-team-stat']). Clicked first stat 'Tugas aktif tim' showing 56. Navigated to /tasks?tab=tasks&scope=all. Team stats correctly link to filtered task lists.",
+      "evidence": "Screenshot 04_team_stat_link.png shows tasks page with 'Semua Divisi' scope active"
+    },
+    "tasks_page_tabel_pro": {
+      "status": "NOT_TESTED",
+      "details": "Session expired when navigating to /tasks page in second test suite. Redirected to login page. Could not test: search box, bucket chips, filters, sort, column picker, CSV export, pagination, bulk actions, row selection, task detail sheet.",
+      "evidence": "Screenshots show login page instead of tasks page"
+    }
+  },
+  
+  "notes": [
+    "Fase 40 main feature (KPI drill-down) is FULLY WORKING and verified",
+    "Backend APIs are solid with 95% pass rate",
+    "The 2 backend test failures are test script issues, not application bugs (manual verification confirms correct behavior)",
+    "KPI 'Tugas Terlambat (org)' = 4 correctly shows 4 rows on filtered tasks page",
+    "AR Outstanding KPI correctly navigates to Finance AR tab with filters",
+    "Team stats on home page correctly link to filtered task lists",
+    "All 23 gates pass according to plan.md (bash scripts/run_all_gates.sh)",
+    "Mutation test passes 20/20 (python3 scripts/mutasi_40_ia.py)",
+    "Session management needs attention for long test sessions",
+    "Remaining features need testing but core functionality (KPI drill-down) is verified working",
+    "All UI text is in Indonesian as required",
+    "Test credentials working: all 6 roles login successfully with password Sipro#2026",
+    "Quick login buttons available on login page for faster testing",
+    "Backend URL: https://real-estate-stage.preview.emergentagent.com/api",
+    "Frontend URL: https://real-estate-stage.preview.emergentagent.com"
+  ]
+}

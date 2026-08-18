@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Restore repo + environment (.env, deps, services, seed) and verify baseline 30 gates PASS",
+    "status": "completed"
+  },
+  {
+    "content": "Fase 46 G2: run scripts/mutasi_46.py — 16/16 mutations caught; fixed 2 real defects (gate sekali-pakai + N15 false-green)",
+    "status": "completed"
+  },
+  {
+    "content": "Fase 46 G3: testing_agent_v3 E2E multi-role round (Fase 46 + US15/US16 Fase 45)",
+    "status": "in_progress"
+  },
+  {
+    "content": "Fase 46 G4: update docs (docs/v2/29, 40_PETA_NAV_V2, CODEBASE_MAP, plan.md, test_result.md, memory)",
+    "status": "pending"
+  },
+  {
+    "content": "Fase 47: plan + POC + build (Keuangan/GL, CRM, Portal Pelanggan, Konstruksi lanjutan)",
+    "status": "pending"
+  }
+]

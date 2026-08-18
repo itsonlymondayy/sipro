@@ -1,0 +1,38 @@
+{
+  "summary": "Completed comprehensive frontend testing for FASE 37 (Kalibrasi Sekali Klik). All 13 user stories passed successfully: calibration dialog workflow, RBAC (PM/Site/Sales), different calibration types (duration/wait_time/wait_into_plan), history & rollback, and new /build-calibration page. Regression tests confirm old pages (/construction, /build-calendar, /) still work without errors.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "USER STORY 1: PM login → /construction → Analytics tab shows delay analytics panel with summary cards and calibration recommendations",
+    "USER STORY 2: Calibration dialog opens in-place from recommendation button, pre-filled with calibration kind and delta, auto-preview loads",
+    "USER STORY 3: Apply button correctly disabled until reason selected and note >=10 chars, hint message guides user",
+    "USER STORY 4: Preview shows explanation text and before→after rows for affected steps with 'dikalibrasi' markers",
+    "USER STORY 5: Impact panel clearly states existing schedules NOT changed, only future schedules use new values",
+    "USER STORY 6: After filling reason and note, calibration applies successfully, result message shown, applied marker appears",
+    "USER STORY 7: History panel displays calibration rows with timestamp, user, reason, and rollback buttons",
+    "USER STORY 8: Rollback dialog requires note >=10 chars, after confirmation shows 'reverted' marker and removes 'applied' marker",
+    "USER STORY 9: Calibration from step table works in both /construction analytics and /build-calibration page, dialog opens with correct step",
+    "USER STORY 10: /build-calibration page loads with all required elements: 5 summary cards, safety note, scope selector (Semua proyek/Per proyek), recommendation panel, step table, template panel with selector and 20+ step rows, history panel",
+    "USER STORY 11: Site role can view /build-calibration page but all calibrate buttons disabled, viewer note explains view-only access",
+    "USER STORY 12: Sales role gets polite access denied message (403) with clear explanation, not raw error",
+    "USER STORY 13: Different calibration types work: can switch between step_duration, wait_time, and wait_into_plan with appropriate explanations",
+    "REGRESSION: All /construction tabs (Papan Mandor, Monitoring Unit, Antrean, Fase, QC, Laporan & Analitik, Template Jadwal) load without errors",
+    "REGRESSION: /build-calendar page loads correctly",
+    "REGRESSION: Home page (/) loads correctly"
+  ],
+  "test_report_links": [],
+  "action_item_for_main_agent": "",
+  "updated_files": [],
+  "success_percentage": {
+    "frontend": "100% (13/13 user stories passed + regression tests passed)"
+  },
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false
+}

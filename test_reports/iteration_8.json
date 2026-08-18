@@ -1,0 +1,57 @@
+{
+  "summary": "Phase 8 Customer Portal (EPIC M1) - Complete E2E testing of buyer-facing portal with OTP auth, unit overview, payment schedule, construction progress, documents, and complaint channel. All portal features working correctly. Staff app regression passed.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "Backend: Portal OTP request (simulation mode shows dev_code)",
+    "Backend: Portal OTP verify with master OTP '000000' (deterministic)",
+    "Backend: GET /api/portal/overview (Unit A-01, 44% progress, Rp 850M, KPR Bank Negara Griya)",
+    "Backend: GET /api/portal/payments (5 termins, total 852.55M, paid 170M, outstanding 682.55M)",
+    "Backend: GET /api/portal/progress (44%, 6 construction phases)",
+    "Backend: GET /api/portal/documents (2 docs: SPR signed, PPJB finalized)",
+    "Backend: GET /api/portal/documents/{id}/pdf (PDF download with auth query param)",
+    "Backend: GET /api/portal/complaints (list complaints)",
+    "Backend: POST /api/portal/complaints (create complaint, auto-creates staff task)",
+    "Backend: Staff token rejection on portal endpoints (401 as expected)",
+    "Frontend: Portal login page loads with correct UI",
+    "Frontend: OTP request flow (identifier input, request button, OTP input appears)",
+    "Frontend: Dev code shown in simulation mode",
+    "Frontend: Master OTP '000000' login works",
+    "Frontend: Portal dashboard loads with 5 tabs",
+    "Frontend: Overview panel shows Unit A-01, Tipe 45/90, Rp 850M, 44% progress, KPR info, 2 documents",
+    "Frontend: Payments panel shows summary cards (Total/Paid/Outstanding) and 5 termin rows with status pills",
+    "Frontend: Progress panel shows 44% with construction phases and progress bars",
+    "Frontend: Documents panel shows 2 documents (SPR, PPJB) with PDF download links",
+    "Frontend: Complaints panel lists existing complaints",
+    "Frontend: Create complaint dialog opens, form submission works, new complaint appears",
+    "Frontend: Logout button returns to login page",
+    "Regression: Staff app login (Owner quick-login) works",
+    "Regression: Customers page loads correctly",
+    "Regression: Finance page loads with 8 tabs",
+    "Regression: Leads page loads",
+    "Regression: Deals page loads",
+    "Regression: Projects page loads",
+    "Regression: Construction page loads"
+  ],
+  "test_report_links": [
+    "/app/backend_test.py"
+  ],
+  "success_percentage": {
+    "backend": "100% (138/138 tests passed)",
+    "frontend": "100% (all portal features working)",
+    "regression": "100% (staff app unaffected)"
+  },
+  "updated_files": [
+    "/app/backend_test.py"
+  ],
+  "action_item_for_main_agent": "",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false
+}
